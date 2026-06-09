@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personas & Papéis de Compra — Parques da Disney</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --bg-soft:#11172a;
+    --surface:#161d34;
+    --surface-2:#1d2748;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.14);
+    --ink:#f4f6fc;
+    --ink-2:#aab3cf;
+    --ink-3:#727d9e;
+    /* Disney-inspired accents */
+    --magic:#5b8cff;     /* castle blue */
+    --magic-2:#8a6bff;   /* fireworks violet */
+    --gold:#f5c451;      /* pixie gold */
+    --rose:#ff7eb6;      /* princess rose */
+    --teal:#3ad0c8;      /* fantasy teal */
+    --green:#56d495;
+    --radius:20px;
+    --shadow:0 24px 60px -28px rgba(0,0,0,.85);
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:
+      radial-gradient(1200px 700px at 78% -8%, rgba(138,107,255,.18), transparent 60%),
+      radial-gradient(1000px 620px at 10% 4%, rgba(91,140,255,.16), transparent 58%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;letter-spacing:-.01em;line-height:1.08}
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:84px 0 40px;position:relative;overflow:hidden}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);background:rgba(245,196,81,.08);border:1px solid rgba(245,196,81,.22);padding:7px 14px;border-radius:100px}
+  .hero h1{font-size:clamp(34px,5.4vw,60px);font-weight:600;margin:22px 0 0;max-width:14ch}
+  .hero h1 em{font-style:italic;color:transparent;background:linear-gradient(120deg,var(--magic),var(--rose),var(--gold));-webkit-background-clip:text;background-clip:text}
+  .hero p.lede{font-size:clamp(16px,2.1vw,19px);color:var(--ink-2);max-width:58ch;margin:22px 0 0}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .chip{font-size:12.5px;color:var(--ink-2);border:1px solid var(--line-strong);padding:8px 14px;border-radius:100px;background:rgba(255,255,255,.02)}
+  .chip b{color:var(--ink);font-weight:600}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:54px 0}
+  .sec-head{margin-bottom:30px;max-width:62ch}
+  .sec-kicker{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--magic)}
+  .sec-head h2{font-size:clamp(26px,3.6vw,38px);font-weight:600;margin:12px 0 0}
+  .sec-head p{color:var(--ink-2);margin:14px 0 0;font-size:16px}
+
+  /* ---------- CARDS ---------- */
+  .card{background:linear-gradient(180deg,var(--surface),var(--bg-soft));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .grid{display:grid;gap:20px}
+  @media(min-width:760px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+
+  .chart-card{padding:24px}
+  .chart-card h3{font-size:18px;font-weight:600;margin:0;display:flex;align-items:center;gap:10px}
+  .chart-card .sub{font-size:13px;color:var(--ink-3);margin:6px 0 18px}
+  .chart-box{position:relative;height:240px}
+  .insight{margin-top:16px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:14px}
+  .insight b{color:var(--gold);font-weight:600}
+
+  /* ---------- ROLE MATRIX ---------- */
+  .matrix-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(180deg,var(--surface),var(--bg-soft));box-shadow:var(--shadow)}
+  table.matrix{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+  table.matrix th,table.matrix td{padding:16px 14px;text-align:center;border-bottom:1px solid var(--line)}
+  table.matrix thead th{font-family:'Inter';font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:rgba(255,255,255,.015)}
+  table.matrix tbody th{text-align:left;font-family:'Inter';font-weight:600;color:var(--ink);white-space:nowrap}
+  table.matrix tbody th small{display:block;font-weight:400;color:var(--ink-3);font-size:12px;margin-top:2px}
+  table.matrix tr:last-child td,table.matrix tr:last-child th{border-bottom:none}
+  .dot{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;font-size:14px;font-weight:700}
+  .dot.full{background:rgba(86,212,149,.16);color:var(--green);border:1px solid rgba(86,212,149,.4)}
+  .dot.part{background:rgba(245,196,81,.14);color:var(--gold);border:1px solid rgba(245,196,81,.38)}
+  .dot.none{color:var(--ink-3)}
+  .row-adult{background:linear-gradient(90deg,rgba(138,107,255,.10),transparent)}
+  .legend-inline{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;font-size:13px;color:var(--ink-2)}
+  .legend-inline span{display:inline-flex;align-items:center;gap:8px}
+
+  /* ---------- PERSONA CARDS ---------- */
+  .persona{padding:0;overflow:hidden;display:flex;flex-direction:column}
+  .persona .top{padding:22px 22px 18px;display:flex;gap:16px;align-items:center;border-bottom:1px solid var(--line);position:relative}
+  .persona .top::before{content:"";position:absolute;inset:0;opacity:.10;background:var(--accent,var(--magic))}
+  .avatar{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-size:26px;font-weight:600;color:#0a0e1a;flex:none;box-shadow:0 8px 20px -6px rgba(0,0,0,.6)}
+  .persona .who{position:relative}
+  .persona .who .nm{font-family:'Fraunces';font-size:20px;font-weight:600}
+  .persona .who .rl{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--accent,var(--magic));margin-top:3px;text-transform:uppercase}
+  .role-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:100px;color:#0a0e1a;background:var(--accent,var(--magic));position:absolute;top:18px;right:0}
+  .persona .body{padding:18px 22px 22px}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:13.5px;margin:0 0 14px}
+  .facts dt{color:var(--ink-3)}
+  .facts dd{margin:0;color:var(--ink);font-weight:500}
+  .persona .quote{font-family:'Fraunces';font-style:italic;font-size:15px;color:var(--ink);border-left:3px solid var(--accent,var(--magic));padding:4px 0 4px 14px;margin:0 0 14px}
+  .persona .note{font-size:13px;color:var(--ink-2);margin:0}
+  .persona .note b{color:var(--ink)}
+
+  /* ---------- SCENARIO CONTRAST ---------- */
+  .scn{padding:26px}
+  .scn h3{font-size:19px;margin:0 0 4px}
+  .scn .tagline{font-size:13px;color:var(--ink-3);margin:0 0 18px}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .node{font-size:12px;font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid var(--line-strong);background:rgba(255,255,255,.03)}
+  .arrow{color:var(--ink-3);font-size:14px}
+  .scn.spread{border-top:3px solid var(--teal)}
+  .scn.collapse{border-top:3px solid var(--magic-2)}
+  .big-stat{font-family:'Fraunces';font-size:40px;font-weight:600;line-height:1}
+  .big-stat span{font-size:15px;color:var(--ink-2);font-family:'Inter';font-weight:400}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:48px 0 70px;border-top:1px solid var(--line);margin-top:30px;color:var(--ink-3);font-size:13px}
+  footer a{color:var(--ink-2)}
+  .src{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px}
+
+  /* ---------- STAT RIBBON ---------- */
+  .statrib{display:grid;gap:14px;margin-bottom:34px}
+  @media(min-width:680px){.statrib{grid-template-columns:repeat(4,1fr)}}
+  .stat{background:linear-gradient(180deg,var(--surface),var(--bg-soft));border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+  .stat .n{font-family:'Fraunces';font-size:30px;font-weight:600;line-height:1;background:linear-gradient(120deg,var(--magic),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{font-size:12.5px;color:var(--ink-2);margin-top:8px}
+
+  /* ---------- MOTIVATION CARDS ---------- */
+  .motiv{padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,var(--surface),var(--bg-soft));position:relative;overflow:hidden}
+  .motiv::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,var(--magic))}
+  .motiv .ic{font-size:22px}
+  .motiv h3{font-size:16.5px;font-weight:600;margin:10px 0 4px}
+  .motiv .for{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent,var(--magic))}
+  .motiv p{font-size:13.5px;color:var(--ink-2);margin:10px 0 0}
+  .motiv p b{color:var(--ink)}
+
+  /* intimacy callout */
+  .intimacy{margin-top:22px;padding:26px;border-radius:18px;border:1px solid rgba(245,196,81,.25);background:linear-gradient(120deg,rgba(245,196,81,.08),rgba(138,107,255,.06))}
+  .intimacy .big{font-family:'Fraunces';font-size:clamp(22px,3vw,30px);font-weight:600;line-height:1.15}
+  .intimacy .big em{font-style:italic;color:var(--gold)}
+  .feelings{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .feel{font-size:12px;font-weight:600;padding:7px 13px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid var(--line-strong);color:var(--ink)}
+
+  /* ---------- ACTION CARDS ---------- */
+  .action{padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,var(--surface),var(--bg-soft));display:flex;flex-direction:column;gap:10px}
+  .action .hd{display:flex;align-items:center;gap:12px}
+  .action .num{flex:none;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:600;font-size:16px;color:#0a0e1a;background:var(--accent,var(--magic))}
+  .action h3{font-size:16px;font-weight:600;margin:0}
+  .action .tgt{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent,var(--magic));margin:0}
+  .action p{font-size:13.5px;color:var(--ink-2);margin:0}
+  .action p b{color:var(--ink)}
+  .action .proof{font-size:12px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
+
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">✦ Gestão de Serviços · Pós-graduação</span>
+    <h1>Quem deseja, quem decide e <em>quem paga</em> uma viagem à Disney</h1>
+    <p class="lede">Mapa de personas e papéis de compra dos Parques da Disney. Numa decisão de serviço, os papéis quase nunca moram na mesma pessoa — e é justamente aí que está a complexidade estratégica da marca.</p>
+    <div class="meta-row">
+      <span class="chip"><b>5</b> papéis de compra</span>
+      <span class="chip"><b>6</b> personas</span>
+      <span class="chip"><b>3</b> cenários de decisão</span>
+      <span class="chip"><b>6</b> ações propostas</span>
+      <span class="chip">Recorte <b>Brasil</b> · top-5 internacional</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= DEMOGRAFIA ================= -->
+<section id="dados">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">01 · Quem é o público hoje</div>
+      <h2>O retrato demográfico mudou</h2>
+      <p>A Disney deixou de ser exclusivamente “marca de família”. Hoje a maioria dos visitantes é adulta e sem crianças — o que redesenha completamente os papéis de compra.</p>
+    </div>
+
+    <div class="statrib">
+      <div class="stat"><div class="n">53% / 47%</div><div class="l">Mulheres / homens entre os visitantes</div></div>
+      <div class="stat"><div class="n">77% / 23%</div><div class="l">Visitantes domésticos (EUA) / internacionais</div></div>
+      <div class="stat"><div class="n">39% → 66%</div><div class="l">Salto das vendas via agentes de viagem (multi-gen)</div></div>
+      <div class="stat"><div class="n">50%</div><div class="l">Das famílias planejam viajar com filhos <i>e</i> netos</div></div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card chart-card">
+        <h3>🎂 Distribuição por idade</h3>
+        <p class="sub">% de visitantes dos parques · 2025</p>
+        <div class="chart-box"><canvas id="ageChart"></canvas></div>
+        <p class="insight">O bloco <b>25–49 anos</b> (47%) domina — são os decisores e compradores adultos. Crianças são só ~15%.</p>
+      </div>
+
+      <div class="card chart-card">
+        <h3>👨‍👩‍👧 Domicílios com crianças &lt;18</h3>
+        <p class="sub">Composição dos grupos visitantes</p>
+        <div class="chart-box"><canvas id="kidsChart"></canvas></div>
+        <p class="insight">Apenas <b>36,7%</b> dos visitantes vêm de casas com crianças. A maioria do <b>usuário</b> hoje é adulto.</p>
+      </div>
+
+      <div class="card chart-card">
+        <h3>💰 Renda familiar anual (EUA)</h3>
+        <p class="sub">Faixa do comprador · base doméstica</p>
+        <div class="chart-box"><canvas id="incomeChart"></canvas></div>
+        <p class="insight">Base ainda na classe média, mas a Disney <b>empurra preço premium</b> para capturar quem ganha +US$125k.</p>
+      </div>
+
+      <div class="card chart-card">
+        <h3>🌎 Origem do visitante internacional</h3>
+        <p class="sub">Principais mercados emissores</p>
+        <div class="chart-box"><canvas id="originChart"></canvas></div>
+        <p class="insight">23% dos visitantes são internacionais. O <b>Brasil está no top-5</b> — gancho central do nosso recorte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MATRIZ DE PAPÉIS ================= -->
+<section id="matriz">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">02 · A dissociação dos papéis</div>
+      <h2>Quem faz o quê na decisão</h2>
+      <p>Cada persona ocupa papéis diferentes. Repare na família Andrade: os 5 papéis se espalham por 4 pessoas. Já o Disney Adult colapsa todos em um só.</p>
+    </div>
+
+    <div class="matrix-wrap">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th style="text-align:left">Persona</th>
+            <th>Inicia</th>
+            <th>Influencia</th>
+            <th>Decide</th>
+            <th>Compra</th>
+            <th>Usa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Lulu <small>filha · 8 anos</small></th>
+            <td><span class="dot full">●</span></td><td><span class="dot full">●</span></td><td><span class="dot none">–</span></td><td><span class="dot none">–</span></td><td><span class="dot full">●</span></td>
+          </tr>
+          <tr>
+            <th>Bia <small>@influencer · 31</small></th>
+            <td><span class="dot none">–</span></td><td><span class="dot full">●</span></td><td><span class="dot none">–</span></td><td><span class="dot none">–</span></td><td><span class="dot none">–</span></td>
+          </tr>
+          <tr>
+            <th>Carla <small>mãe · 39</small></th>
+            <td><span class="dot none">–</span></td><td><span class="dot full">●</span></td><td><span class="dot full">●</span></td><td><span class="dot part">◐</span></td><td><span class="dot full">●</span></td>
+          </tr>
+          <tr>
+            <th>Roberto <small>pai · 42</small></th>
+            <td><span class="dot none">–</span></td><td><span class="dot none">–</span></td><td><span class="dot part">◐</span></td><td><span class="dot full">●</span></td><td><span class="dot full">●</span></td>
+          </tr>
+          <tr>
+            <th>Vovó Tereza <small>avó · 67</small></th>
+            <td><span class="dot none">–</span></td><td><span class="dot none">–</span></td><td><span class="dot none">–</span></td><td><span class="dot full">●</span></td><td><span class="dot full">●</span></td>
+          </tr>
+          <tr class="row-adult">
+            <th>Thiago <small>Disney Adult · 29</small></th>
+            <td><span class="dot full">●</span></td><td><span class="dot full">●</span></td><td><span class="dot full">●</span></td><td><span class="dot full">●</span></td><td><span class="dot full">●</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend-inline">
+      <span><span class="dot full" style="width:20px;height:20px;font-size:10px">●</span> Papel pleno</span>
+      <span><span class="dot part" style="width:20px;height:20px;font-size:10px">◐</span> Papel parcial / compartilhado</span>
+      <span><span class="dot none" style="width:20px;height:20px;font-size:10px">–</span> Não exerce</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PERSONAS ================= -->
+<section id="personas">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">03 · As personas</div>
+      <h2>Gente de verdade por trás de cada papel</h2>
+      <p>Uma família-âncora brasileira (os Andrade) distribui os 4 papéis centrais, mais duas personas avulsas que representam os extremos do mercado.</p>
+    </div>
+
+    <div class="grid g3">
+
+      <!-- LULU -->
+      <article class="card persona" style="--accent:var(--rose)">
+        <div class="top">
+          <div class="avatar" style="background:linear-gradient(135deg,#ff7eb6,#ffb3d4)">L</div>
+          <div class="who">
+            <div class="nm">Lulu Andrade</div>
+            <div class="rl">Influenciador interno</div>
+          </div>
+          <span class="role-tag">Influencia</span>
+        </div>
+        <div class="body">
+          <dl class="facts">
+            <dt>Idade</dt><dd>8 anos · Geração Alpha</dd>
+            <dt>Onde</dt><dd>Moema, São Paulo (SP)</dd>
+            <dt>Rotina</dt><dd>Escola bilíngue, Disney+ diário, Roblox</dd>
+          </dl>
+          <p class="quote">“Meus pais ficam enrolando… eu quero abraçar a Elsa!”</p>
+          <p class="note">Semeia o desejo e exerce <b>pester power</b>. Influencia <b>64%</b> do destino e <b>57%</b> das atividades — mas não decide nem paga nada.</p>
+        </div>
+      </article>
+
+      <!-- BIA -->
+      <article class="card persona" style="--accent:var(--teal)">
+        <div class="top">
+          <div class="avatar" style="background:linear-gradient(135deg,#3ad0c8,#7fe8e1)">B</div>
+          <div class="who">
+            <div class="nm">Bia Fontes</div>
+            <div class="rl">Influenciador externo</div>
+          </div>
+          <span class="role-tag">Influencia</span>
+        </div>
+        <div class="body">
+          <dl class="facts">
+            <dt>Idade</dt><dd>31 anos</dd>
+            <dt>Onde</dt><dd>Orlando, FL · brasileira</dd>
+            <dt>Perfil</dt><dd>@biadisneytips · 87k seguidores</dd>
+          </dl>
+          <p class="quote">“Levei os hacks de fila pra +80 mil mães brasileiras.”</p>
+          <p class="note">Micro-influencer: <b>60% mais engajamento</b> que macro. <b>71%</b> compram após recomendação social. Dá a <b>confiança técnica</b> da decisão.</p>
+        </div>
+      </article>
+
+      <!-- CARLA -->
+      <article class="card persona" style="--accent:var(--magic)">
+        <div class="top">
+          <div class="avatar" style="background:linear-gradient(135deg,#5b8cff,#9db8ff)">C</div>
+          <div class="who">
+            <div class="nm">Carla Andrade</div>
+            <div class="rl">Decisor</div>
+          </div>
+          <span class="role-tag">Decide</span>
+        </div>
+        <div class="body">
+          <dl class="facts">
+            <dt>Idade</dt><dd>39 anos</dd>
+            <dt>Onde</dt><dd>Moema, São Paulo (SP)</dd>
+            <dt>Cargo</dt><dd>Gerente de marketing</dd>
+            <dt>Renda</dt><dd>~R$22 mil/mês · classe média-alta</dd>
+          </dl>
+          <p class="quote">“Vale o dólar? Cabe nas férias? Eu que faço essa conta.”</p>
+          <p class="note">Recebe pressão da filha + conteúdo da Bia e <b>bate o martelo</b>. “Crianças influenciam, adultos decidem.” Dores: câmbio e complexidade do planejamento.</p>
+        </div>
+      </article>
+
+      <!-- ROBERTO -->
+      <article class="card persona" style="--accent:var(--gold)">
+        <div class="top">
+          <div class="avatar" style="background:linear-gradient(135deg,#f5c451,#ffe08a)">R</div>
+          <div class="who">
+            <div class="nm">Roberto Andrade</div>
+            <div class="rl">Comprador-executor</div>
+          </div>
+          <span class="role-tag">Compra</span>
+        </div>
+        <div class="body">
+          <dl class="facts">
+            <dt>Idade</dt><dd>42 anos</dd>
+            <dt>Onde</dt><dd>Moema, São Paulo (SP)</dd>
+            <dt>Cargo</dt><dd>Engenheiro · sócio de PME</dd>
+            <dt>Papel</dt><dd>Co-decisor + executa a transação</dd>
+          </dl>
+          <p class="quote">“A Carla decide, eu parcelo no cartão e fecho a agência.”</p>
+          <p class="note">Foco em <b>logística e dinheiro</b>: voos, câmbio, parcelamento, seguro. Sente o <b>preço premium</b> da Disney no bolso.</p>
+        </div>
+      </article>
+
+      <!-- TEREZA -->
+      <article class="card persona" style="--accent:var(--magic-2)">
+        <div class="top">
+          <div class="avatar" style="background:linear-gradient(135deg,#8a6bff,#b9a4ff)">T</div>
+          <div class="who">
+            <div class="nm">Vovó Tereza</div>
+            <div class="rl">Comprador-financiador · skip-gen</div>
+          </div>
+          <span class="role-tag">Compra</span>
+        </div>
+        <div class="body">
+          <dl class="facts">
+            <dt>Idade</dt><dd>67 anos · aposentada</dd>
+            <dt>Onde</dt><dd>Campinas (SP)</dd>
+            <dt>Papel</dt><dd>Quem efetivamente paga</dd>
+          </dl>
+          <p class="quote">“É meu presente de uma vida pra minha neta.”</p>
+          <p class="note">Nas viagens com netos, <b>~50% dos avós financiam</b> (total/parcial) e <b>54% organizam</b>; Disney é o <b>destino nº1</b> em viagens skip-gen. Aqui decisor ≠ comprador ≠ usuário se separam.</p>
+        </div>
+      </article>
+
+      <!-- THIAGO -->
+      <article class="card persona" style="--accent:#56d495">
+        <div class="top">
+          <div class="avatar" style="background:linear-gradient(135deg,#56d495,#9ae9bf)">T</div>
+          <div class="who">
+            <div class="nm">Thiago Mendes</div>
+            <div class="rl">Disney Adult · todos os papéis</div>
+          </div>
+          <span class="role-tag">Tudo em 1</span>
+        </div>
+        <div class="body">
+          <dl class="facts">
+            <dt>Idade</dt><dd>29 anos · sem filhos</dd>
+            <dt>Onde</dt><dd>Pinheiros, São Paulo (SP)</dd>
+            <dt>Perfil</dt><dd>Dev de software · viaja com o namorado</dd>
+          </dl>
+          <p class="quote">“Não vou pela criança. Vou pela nostalgia e pelo Food &amp; Wine.”</p>
+          <p class="note">Parte dos <b>~30% de “Disney Adults”</b> (18–45). Inicia, influencia, decide, compra e usa — <b>todos os papéis colapsam numa pessoa só</b>.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CENÁRIOS ================= -->
+<section id="cenarios">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">04 · Os dois extremos</div>
+      <h2>De 4 pessoas a 1 pessoa</h2>
+      <p>A mesma compra de serviço pode ter os papéis radicalmente espalhados ou totalmente concentrados. Esses extremos enquadram a análise de gestão de serviço.</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="card scn spread">
+        <h3>🧓 Cenário Skip-Gen</h3>
+        <p class="tagline">Papéis espalhados por 4 pessoas</p>
+        <div class="flow">
+          <span class="node" style="border-color:rgba(255,126,182,.5)">Lulu inicia</span>
+          <span class="arrow">→</span>
+          <span class="node" style="border-color:rgba(91,140,255,.5)">Carla decide</span>
+          <span class="arrow">→</span>
+          <span class="node" style="border-color:rgba(138,107,255,.5)">Vovó paga</span>
+          <span class="arrow">→</span>
+          <span class="node" style="border-color:rgba(58,208,200,.5)">Todos usam</span>
+        </div>
+        <p style="margin:20px 0 0"><span class="big-stat">50%</span></p>
+        <p class="note" style="margin-top:6px">dos avós financiam (total/parcial) a viagem <i>nas viagens com netos</i>. <b style="color:var(--ink)">A Disney comunica com os pais — mas a carteira é do avô.</b></p>
+      </div>
+
+      <div class="card scn collapse">
+        <h3>🧑‍🎤 Cenário Disney Adult</h3>
+        <p class="tagline">Todos os papéis numa pessoa só</p>
+        <div class="flow">
+          <span class="node" style="border-color:rgba(86,212,149,.5)">Thiago inicia · influencia · decide · compra · usa</span>
+        </div>
+        <p style="margin:20px 0 0"><span class="big-stat">~30%<span> dos visitantes</span></span></p>
+        <p class="note" style="margin-top:6px">são “Disney Adults” (18–45). <b style="color:var(--ink)">Zero dissociação: a jornada de serviço inteira mora num único indivíduo.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MOTIVAÇÕES ================= -->
+<section id="motivacoes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">05 · O que move cada público</div>
+      <h2>Por que escolhem a Disney</h2>
+      <p>A decisão raramente é racional-preço. Cada público é puxado por uma motivação emocional dominante — e é nela que a marca constrói lealdade sem precisar dar desconto.</p>
+    </div>
+
+    <div class="grid g3">
+      <div class="motiv" style="--accent:var(--rose)">
+        <div class="ic">✨</div>
+        <div class="for">Criança · usuário</div>
+        <h3>Magia & personagens</h3>
+        <p>Encontro “de verdade” com Elsa, Mickey, heróis Marvel. O vínculo afetivo com personagens é <b>valor emocional puro</b> — e o gatilho do pester power.</p>
+      </div>
+      <div class="motiv" style="--accent:var(--magic)">
+        <div class="ic">🛡️</div>
+        <div class="for">Pais · decisor</div>
+        <h3>Experiência segura e inesquecível</h3>
+        <p>Buscam <b>memória de uma vida</b> para os filhos com previsibilidade, segurança e serviço impecável (o “guest”, não “cliente”).</p>
+      </div>
+      <div class="motiv" style="--accent:var(--magic-2)">
+        <div class="ic">💝</div>
+        <div class="for">Avós · comprador</div>
+        <h3>Tempo & legado afetivo</h3>
+        <p>Pagam para <b>construir memórias com os netos</b>. A viagem é presente e legado — motivação emocional, não funcional.</p>
+      </div>
+      <div class="motiv" style="--accent:#56d495">
+        <div class="ic">🎢</div>
+        <div class="for">Disney Adult · 18–45</div>
+        <h3>Nostalgia & autoexpressão</h3>
+        <p>Arquétipo mais forte da marca: <b>nostalgia</b>. Voltam pela infância, pelo Food &amp; Wine, eventos noturnos e conteúdo “instagramável”.</p>
+      </div>
+      <div class="motiv" style="--accent:var(--teal)">
+        <div class="ic">📱</div>
+        <div class="for">Influenciador · mercado</div>
+        <h3>Comunidade & status</h3>
+        <p>Criadores e passholders vivem de <b>pertencimento</b> e autoridade. Recomendação social move <b>71%</b> das compras do nicho.</p>
+      </div>
+      <div class="motiv" style="--accent:var(--gold)">
+        <div class="ic">🤝</div>
+        <div class="for">Todos · marca</div>
+        <h3>Confiança & storytelling</h3>
+        <p>Marca <b>nº1 em intimidade</b> e mais confiável entre Millennials e Gen Z. A narrativa coerente sustenta a lealdade e o boca a boca.</p>
+      </div>
+    </div>
+
+    <div class="intimacy">
+      <div class="big">A Disney é a marca com <em>maior intimidade emocional do mundo</em> — e ativa diariamente seis sentimentos nos parques.</div>
+      <div class="feelings">
+        <span class="feel">😌 Acolhimento</span>
+        <span class="feel">🎉 Diversão</span>
+        <span class="feel">⚡ Empolgação</span>
+        <span class="feel">🛡️ Segurança</span>
+        <span class="feel">👍 Aprovação social</span>
+        <span class="feel">💛 Autoestima</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AÇÕES ================= -->
+<section id="acoes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">06 · Propostas estratégicas</div>
+      <h2>Ações para ampliar o interesse</h2>
+      <p>Seis movimentos — cada um endereçando um público e a motivação que o move. Vários já são tendências reais da própria Disney; aqui ganham foco e recorte brasileiro.</p>
+    </div>
+
+    <div class="grid g3">
+      <div class="action" style="--accent:var(--magic)">
+        <div class="hd"><div class="num">1</div><div><p class="tgt">Decisor / comprador</p><h3>Faixas de preço & temporada-valor</h3></div></div>
+        <p>Criar <b>tiers acessíveis</b> e “datas-valor” + ampliar capacidade (novas áreas como Tropical Americas) para reabrir a classe média que o preço premium afastou.</p>
+        <p class="proof">Responde à dor nº1 (custo) e ao recuo de famílias com filhos para 36,7%.</p>
+      </div>
+
+      <div class="action" style="--accent:var(--teal)">
+        <div class="hd"><div class="num">2</div><div><p class="tgt">Decisor · planejadora</p><h3>App com IA de planejamento</h3></div></div>
+        <p>Reduzir o atrito da Carla com <b>roteiro personalizado por IA</b> (otimização de filas/Genie+), tirando a “complexidade” como barreira de decisão.</p>
+        <p class="proof">Disney já expande personalização por IA para elevar satisfação e revisitas.</p>
+      </div>
+
+      <div class="action" style="--accent:#56d495">
+        <div class="hd"><div class="num">3</div><div><p class="tgt">Influenciador · BR</p><h3>Programa de micro-influencers locais</h3></div></div>
+        <p>Estruturar parcerias com criadores <b>brasileiros</b> tipo @biadisneytips — micro (&lt;100k) entregam <b>60% mais engajamento</b> e confiança técnica em PT-BR.</p>
+        <p class="proof">71% compram após recomendação social; Brasil é top-5 emissor.</p>
+      </div>
+
+      <div class="action" style="--accent:var(--magic-2)">
+        <div class="hd"><div class="num">4</div><div><p class="tgt">Comprador · avós</p><h3>Comunicação & pacotes skip-gen</h3></div></div>
+        <p>Falar diretamente com <b>quem paga</b>: campanhas de “presente para o neto”, pacotes gifting e acessibilidade sênior. Hoje a marca fala com os pais, mas a carteira é do avô.</p>
+        <p class="proof">Nas viagens com netos: ~50% dos avós financiam e 54% organizam; Disney é destino nº1 skip-gen.</p>
+      </div>
+
+      <div class="action" style="--accent:#56d495">
+        <div class="hd"><div class="num">5</div><div><p class="tgt">Disney Adult · Gen Z</p><h3>Eventos premium & nostalgia ativa</h3></div></div>
+        <p>Escalar <b>after-hours, Food &amp; Wine e experiências “instagramáveis”</b> com representatividade — o que mantém os ~30% de Disney Adults e atrai a Gen Z.</p>
+        <p class="proof">Marca mais confiável entre Millennials e Gen Z; adultos 35+ têm o vínculo mais forte.</p>
+      </div>
+
+      <div class="action" style="--accent:var(--gold)">
+        <div class="hd"><div class="num">6</div><div><p class="tgt">Todos · lealdade</p><h3>Programa de fidelidade always-on</h3></div></div>
+        <p>Amarrar parques + Disney+ num <b>programa de perks contínuo</b> (modelo Disney+ Perks, 2025): compromisso pago antecipado eleva frequência e LTV.</p>
+        <p class="proof">Membros pré-pagos “buscam o retorno do dinheiro” → mais visitas e gasto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <strong style="color:var(--ink-2);font-family:'Fraunces'">Personas & Papéis de Compra — Parques da Disney</strong><br>
+    Trabalho de Gestão de Serviços · Dados de mercado 2025. Personas ilustrativas construídas sobre estatísticas reais de público.
+    <div class="src">
+      <a href="https://www.mapzot.ai/news/walt-disney-world-travel-behavior-demographics-2025/">MapZot · Demografia WDW 2025</a>
+      <a href="https://link.springer.com/article/10.1007/s11628-025-00579-1">Springer · Children & family tourism decisions</a>
+      <a href="https://www.travelagewest.com/Travel/Family-Travel/the-kidfluence-effect-on-travel">TravelAge · Kidfluence</a>
+      <a href="https://www.travelmarketreport.com/retail-strategies/articles/multi-generation-skip-generation-grandparents-paying-family-travel-trend">Travel Market Report · Skip-gen</a>
+      <a href="https://piratesandprincesses.net/disney-adult-numbers-surge-as-families-face-higher-costs-at-disney-parks/">Disney Adults Surge</a>
+      <a href="https://mblm.com/library/making-sense-of-the-magic-of-disney-parks/">MBLM · Brand Intimacy</a>
+      <a href="https://www.rivo.io/blog/disney-loyalty-retention-strategy-complete-breakdown">Rivo · Loyalty & Retention</a>
+      <a href="https://www.surveysensum.com/blog/disney-nps">SurveySensum · NPS & 6 feelings</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#aab3cf';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.boxWidth = 8;
+Chart.defaults.plugins.legend.labels.padding = 16;
+
+const ink = '#f4f6fc';
+const tip = {
+  backgroundColor:'#1d2748', titleColor:ink, bodyColor:'#dfe4f3',
+  borderColor:'rgba(255,255,255,.12)', borderWidth:1, padding:12,
+  cornerRadius:10, displayColors:true, boxPadding:5
+};
+const gridC = 'rgba(255,255,255,.06)';
+const anim = REDUCED ? false : {duration:900, easing:'easeOutQuart'};
+
+// 1. AGE — horizontal bar
+new Chart(document.getElementById('ageChart'), {
+  type:'bar',
+  data:{
+    labels:['18–25','25–49','< 18','65+'],
+    datasets:[{
+      label:'% dos visitantes',
+      data:[29,47,15,10],
+      backgroundColor:['#8a6bff','#5b8cff','#ff7eb6','#f5c451'],
+      borderRadius:8, barThickness:30
+    }]
+  },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false, animation:anim,
+    plugins:{legend:{display:false}, tooltip:{...tip, callbacks:{label:c=>` ${c.parsed.x}% dos visitantes`}}},
+    scales:{
+      x:{grid:{color:gridC}, ticks:{callback:v=>v+'%'}, max:50, title:{display:true,text:'% de visitantes',color:'#727d9e',font:{size:11}}},
+      y:{grid:{display:false}, ticks:{font:{weight:'600'}}}
+    }
+  }
+});
+
+// 2. KIDS — donut
+new Chart(document.getElementById('kidsChart'), {
+  type:'doughnut',
+  data:{
+    labels:['Com crianças < 18','Sem crianças < 18'],
+    datasets:[{
+      data:[36.7,63.3],
+      backgroundColor:['#ff7eb6','#2a3766'],
+      borderColor:'#11172a', borderWidth:3, hoverOffset:6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, animation:anim, cutout:'66%',
+    plugins:{
+      legend:{position:'bottom'},
+      tooltip:{...tip, callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}
+    }
+  }
+});
+
+// 3. INCOME — vertical bar
+new Chart(document.getElementById('incomeChart'), {
+  type:'bar',
+  data:{
+    labels:['< 35k','35–50k','50–125k','> 125k'],
+    datasets:[{
+      label:'Participação',
+      data:[42.1,28,18,11.9],
+      backgroundColor:['#3ad0c8','#5b8cff','#8a6bff','#f5c451'],
+      borderRadius:8, maxBarThickness:54
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, animation:anim,
+    plugins:{legend:{display:false}, tooltip:{...tip, callbacks:{label:c=>` ~${c.parsed.y}% das famílias`, title:c=>'US$ '+c[0].label+'/ano'}}},
+    scales:{
+      x:{grid:{display:false}, title:{display:true,text:'Renda familiar anual (US$)',color:'#727d9e',font:{size:11}}},
+      y:{grid:{color:gridC}, ticks:{callback:v=>v+'%'}}
+    }
+  }
+});
+
+// 4. ORIGIN — horizontal bar (index proxy of emissor strength)
+new Chart(document.getElementById('originChart'), {
+  type:'bar',
+  data:{
+    labels:['Reino Unido','México','Brasil','Colômbia','Canadá'],
+    datasets:[{
+      label:'Força do mercado emissor',
+      data:[100,82,74,60,55],
+      backgroundColor:['#5b8cff','#5b8cff','#f5c451','#5b8cff','#5b8cff'],
+      borderRadius:8, barThickness:24
+    }]
+  },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false, animation:anim,
+    plugins:{
+      legend:{display:false},
+      tooltip:{...tip, callbacks:{label:c=>c.label==='Brasil'?' Top-5 · foco do recorte':' Mercado emissor internacional'}}
+    },
+    scales:{
+      x:{grid:{color:gridC}, ticks:{display:false}, title:{display:true,text:'Índice relativo de emissão de turistas',color:'#727d9e',font:{size:11}}},
+      y:{grid:{display:false}, ticks:{font:{weight:'600'}}}
+    }
+  }
+});
+</script>
+</body>
+</html>
