@@ -15,11 +15,14 @@ A premissa central é a **dissociação dos papéis de compra**: numa decisão d
 | Seção | O que mostra |
 |-------|--------------|
 | **01 · Demografia** | 4 gráficos (Chart.js): idade, % com crianças, renda e origem internacional |
-| **02 · Matriz de papéis** | Quem inicia / influencia / decide / compra / usa entre as 6 personas |
-| **03 · Personas** | 6 fichas detalhadas (família Andrade + Disney Adult) |
-| **04 · Cenários** | Contraste Skip-Gen (papéis em 4 pessoas) vs Disney Adult (todos em 1) |
-| **05 · Motivações** | O que move cada público a escolher a Disney (intimidade de marca) |
-| **06 · Ações** | 6 propostas estratégicas para ampliar o interesse por público |
+| **02 · Perfil subjetivo** | Lado psicográfico do público — valores, desejos, medos e identidade |
+| **03 · Matriz de papéis** | Quem inicia / influencia / decide / compra / usa entre as 6 personas |
+| **04 · Personas** | 6 fichas detalhadas (família Andrade + Disney Adult) |
+| **05 · Cenários** | Contraste Skip-Gen (papéis em 4 pessoas) vs Disney Adult (todos em 1) |
+| **06 · Motivações** | O que move cada público a escolher a Disney (intimidade de marca) |
+| **07 · Tangibilização** | 10 evidências físicas/sensoriais + 7 propostas de melhoria |
+| **08 · Hiatos de serviço** | Modelo de gaps: conhecimento, padrão, entrega e comunicação |
+| **09 · Ações** | 6 propostas estratégicas para ampliar o interesse por público |
 
 ---
 

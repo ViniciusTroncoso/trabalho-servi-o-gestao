@@ -157,6 +157,42 @@
   .action p b{color:var(--ink)}
   .action .proof{font-size:12px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
 
+  /* ---------- SUBJECTIVE PROFILE ---------- */
+  .subj-grid{display:grid;gap:16px;margin-top:4px}
+  @media(min-width:760px){.subj-grid{grid-template-columns:1fr 1fr}}
+  .subj{padding:20px 22px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,var(--surface),var(--bg-soft))}
+  .subj h3{font-size:15px;margin:0 0 6px;font-weight:600;display:flex;gap:8px;align-items:center}
+  .subj p{margin:0;font-size:13.5px;color:var(--ink-2)}
+  .subj p b{color:var(--ink);font-weight:600}
+
+  /* ---------- TANGIBILIZAÇÃO CUES ---------- */
+  .cues{display:grid;gap:14px}
+  @media(min-width:680px){.cues{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:980px){.cues{grid-template-columns:repeat(3,1fr)}}
+  .cue{display:flex;gap:12px;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .cue .ce{font-size:20px;flex:none;line-height:1.3}
+  .cue p{margin:0;font-size:13.5px;color:var(--ink-2)}
+  .cue p b{color:var(--ink);font-weight:600}
+
+  /* ---------- IMPROVE LIST ---------- */
+  .improve{display:grid;gap:12px;margin-top:4px}
+  @media(min-width:760px){.improve{grid-template-columns:1fr 1fr}}
+  .imp{display:flex;gap:13px;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:linear-gradient(180deg,var(--surface),var(--bg-soft))}
+  .imp .ix{flex:none;color:var(--gold);font-weight:600;font-family:'Fraunces';font-size:17px}
+  .imp p{margin:0;font-size:13.5px;color:var(--ink-2)}
+  .imp p b{color:var(--ink);font-weight:600}
+
+  /* ---------- GAPS / HIATOS ---------- */
+  .gaps{display:grid;gap:18px}
+  @media(min-width:760px){.gaps{grid-template-columns:1fr 1fr}}
+  .gap{padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,var(--surface),var(--bg-soft));border-left:4px solid var(--accent,var(--magic))}
+  .gap .gh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+  .gap h3{font-size:16.5px;font-weight:600;margin:0;font-family:'Fraunces'}
+  .gap .sev{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;color:#0a0e1a;background:var(--accent,var(--magic));white-space:nowrap}
+  .gap p{font-size:13.5px;color:var(--ink-2);margin:0}
+  .gap p b{color:var(--ink)}
+  .gap.ok .sev{background:transparent;color:var(--green);border:1px solid rgba(86,212,149,.4)}
+
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -170,7 +206,8 @@
     <div class="meta-row">
       <span class="chip"><b>5</b> papéis de compra</span>
       <span class="chip"><b>6</b> personas</span>
-      <span class="chip"><b>3</b> cenários de decisão</span>
+      <span class="chip"><b>10</b> evidências de tangibilização</span>
+      <span class="chip"><b>4</b> hiatos de serviço</span>
       <span class="chip"><b>6</b> ações propostas</span>
       <span class="chip">Recorte <b>Brasil</b> · top-5 internacional</span>
     </div>
@@ -225,11 +262,29 @@
   </div>
 </section>
 
+<!-- ================= PERFIL SUBJETIVO ================= -->
+<section id="subjetivo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">02 · Além dos números</div>
+      <h2>O perfil subjetivo do público</h2>
+      <p>A demografia diz <i>quem</i> é o visitante. Mas a decisão de ir à Disney é movida por valores, desejos e estados emocionais — o lado psicográfico que o dado frio não captura.</p>
+    </div>
+    <div class="subj-grid">
+      <div class="subj"><h3>💭 Valores &amp; visão de mundo</h3><p>Enxergam a viagem como <b>investimento afetivo</b>, não consumo. Valorizam tempo em família, criação de memória e a sensação de "dar o melhor" para filhos e netos.</p></div>
+      <div class="subj"><h3>✨ Desejo central</h3><p>Viver — e não só assistir — o <b>mundo fantasioso dos filmes</b>. Compram a materialização de um sonho de infância, uma experiência impossível de ter em qualquer outro lugar.</p></div>
+      <div class="subj"><h3>😟 Medos &amp; tensões</h3><p>Medo de <b>gastar muito e não valer</b>, de não dar conta do planejamento e do câmbio, de frustrar a criança. Ansiedade de "fazer tudo certo" numa viagem cara e única.</p></div>
+      <div class="subj"><h3>🎭 Identidade &amp; pertencimento</h3><p>Sobretudo nos Disney Adults: a marca é <b>autoexpressão</b>. Ir à Disney comunica nostalgia, leveza e pertencer a uma comunidade afetiva de símbolos compartilhados.</p></div>
+    </div>
+    <p style="margin-top:16px;color:var(--ink-3);font-size:12.5px">↳ Resposta à observação de aula: ao retrato demográfico somamos o <b style="color:var(--ink-2)">perfil subjetivo</b> — valores, desejos, medos e identidade de cada público.</p>
+  </div>
+</section>
+
 <!-- ================= MATRIZ DE PAPÉIS ================= -->
 <section id="matriz">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-kicker">02 · A dissociação dos papéis</div>
+      <div class="sec-kicker">03 · A dissociação dos papéis</div>
       <h2>Quem faz o quê na decisão</h2>
       <p>Cada persona ocupa papéis diferentes. Repare na família Andrade: os 5 papéis se espalham por 4 pessoas. Já o Disney Adult colapsa todos em um só.</p>
     </div>
@@ -286,7 +341,7 @@
 <section id="personas">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-kicker">03 · As personas</div>
+      <div class="sec-kicker">04 · As personas</div>
       <h2>Gente de verdade por trás de cada papel</h2>
       <p>Uma família-âncora brasileira (os Andrade) distribui os 4 papéis centrais, mais duas personas avulsas que representam os extremos do mercado.</p>
     </div>
@@ -429,7 +484,7 @@
 <section id="cenarios">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-kicker">04 · Os dois extremos</div>
+      <div class="sec-kicker">05 · Os dois extremos</div>
       <h2>De 4 pessoas a 1 pessoa</h2>
       <p>A mesma compra de serviço pode ter os papéis radicalmente espalhados ou totalmente concentrados. Esses extremos enquadram a análise de gestão de serviço.</p>
     </div>
@@ -468,7 +523,7 @@
 <section id="motivacoes">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-kicker">05 · O que move cada público</div>
+      <div class="sec-kicker">06 · O que move cada público</div>
       <h2>Por que escolhem a Disney</h2>
       <p>A decisão raramente é racional-preço. Cada público é puxado por uma motivação emocional dominante — e é nela que a marca constrói lealdade sem precisar dar desconto.</p>
     </div>
@@ -526,11 +581,77 @@
   </div>
 </section>
 
+<!-- ================= TANGIBILIZAÇÃO ================= -->
+<section id="tangibilizacao">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">07 · Tornando o intangível tangível</div>
+      <h2>Tangibilização do serviço</h2>
+      <p>Serviço não se toca — mas a Disney o materializa em mil evidências físicas e sensoriais. Cada detalhe converte a promessa de "magia" em prova concreta, sustentando a experiência e a nostalgia.</p>
+    </div>
+    <div class="cues">
+      <div class="cue"><span class="ce">🏰</span><p><b>Estrutura impecável.</b> Infraestrutura repintada constantemente e parque extremamente limpo — o cenário nunca quebra.</p></div>
+      <div class="cue"><span class="ce">🎬</span><p><b>Personagens com laço afetivo.</b> Filmes de sucesso criam o vínculo; os personagens ganham vida no parque.</p></div>
+      <div class="cue"><span class="ce">🤗</span><p><b>Personagens "vivos".</b> Visitantes veem e interagem — há filas longas só para tirar foto com eles.</p></div>
+      <div class="cue"><span class="ce">🤫</span><p><b>A magia protegida.</b> A fantasia nunca é vestida na frente do público, para não revelar o "truque".</p></div>
+      <div class="cue"><span class="ce">🏨</span><p><b>Hotéis temáticos.</b> A experiência começa antes do parque — o clima já é construído na hospedagem.</p></div>
+      <div class="cue"><span class="ce">🛍️</span><p><b>Lojas por toda parte.</b> Lembranças muito procuradas estendem a experiência para depois da viagem.</p></div>
+      <div class="cue"><span class="ce">👑</span><p><b>Tratamento personalizado.</b> Criança fantasiada de princesa é tratada como princesa pelos funcionários.</p></div>
+      <div class="cue"><span class="ce">🍦</span><p><b>Produto-marca.</b> O sorvete em formato da orelha do Mickey remete diretamente à marca.</p></div>
+      <div class="cue"><span class="ce">👃</span><p><b>Marketing olfativo.</b> Aromas espalhados pelo parque (baunilha e outros) ativam memória e emoção.</p></div>
+      <div class="cue"><span class="ce">🎵</span><p><b>Trilha temática.</b> Músicas alinhadas a cada área reforçam a experiência e a nostalgia das telas.</p></div>
+    </div>
+
+    <div class="sec-head" style="margin-top:42px;margin-bottom:18px">
+      <div class="sec-kicker" style="color:var(--gold)">Propostas de melhoria</div>
+      <h2 style="font-size:clamp(20px,2.6vw,26px)">Onde a experiência ainda pode evoluir</h2>
+    </div>
+    <div class="improve">
+      <div class="imp"><span class="ix">1</span><p><b>Transporte tematizado</b> do hotel ao parque, mantendo a imersão durante todo o trajeto.</p></div>
+      <div class="imp"><span class="ix">2</span><p><b>Filas mais curtas</b> — reduzir o tempo e entreter melhor quem espera.</p></div>
+      <div class="imp"><span class="ix">3</span><p><b>App unificado</b> e didático: uma única ferramenta com todas as funcionalidades.</p></div>
+      <div class="imp"><span class="ix">4</span><p><b>Opções econômicas</b> de ingresso e alimentação, diante do custo elevado.</p></div>
+      <div class="imp"><span class="ix">5</span><p><b>Menos planejamento obrigatório</b> — hoje cada refeição precisa ser agendada com antecedência.</p></div>
+      <div class="imp"><span class="ix">6</span><p><b>Lotação equilibrada</b> ao longo do ano, para uma experiência mais agradável.</p></div>
+      <div class="imp"><span class="ix">7</span><p><b>Mais espontaneidade</b>: menos dependência do celular, mais surpresa e interação mágica.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HIATOS ================= -->
+<section id="hiatos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">08 · Modelo de gaps de serviço</div>
+      <h2>Os hiatos entre o prometido e o entregue</h2>
+      <p>Aplicando o modelo de gaps de qualidade em serviços, mapeamos onde a experiência Disney abre brechas entre a expectativa do cliente e a entrega real.</p>
+    </div>
+    <div class="gaps">
+      <div class="gap ok" style="--accent:var(--green)">
+        <div class="gh"><h3>Hiato de conhecimento</h3><span class="sev">Não identificado</span></div>
+        <p>A Disney <b>conhece profundamente</b> as expectativas do cliente — pesquisa, dados e décadas de experiência fecham esse gap.</p>
+      </div>
+      <div class="gap" style="--accent:var(--magic)">
+        <div class="gh"><h3>Hiato de padrão</h3><span class="sev">Atenção</span></div>
+        <p><b>Reservas de almoço e jantar</b> nos restaurantes temáticos: reservar no próprio dia é quase impossível — o padrão de capacidade não acompanha a demanda.</p>
+      </div>
+      <div class="gap" style="--accent:var(--rose)">
+        <div class="gh"><h3>Hiato de entrega</h3><span class="sev">Crítico</span></div>
+        <p><b>Filas muito demoradas</b> e <b>falhas mecânicas</b> em atrações quebram a atmosfera do show — distância entre o serviço desenhado e o entregue.</p>
+      </div>
+      <div class="gap" style="--accent:var(--gold)">
+        <div class="gh"><h3>Hiato de comunicação</h3><span class="sev">Atenção</span></div>
+        <p><b>Cobranças adicionais</b> (estacionamento, passes, cartões de acesso) ao longo de toda a experiência desalinham a expectativa sobre o custo real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= AÇÕES ================= -->
 <section id="acoes">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-kicker">06 · Propostas estratégicas</div>
+      <div class="sec-kicker">09 · Propostas estratégicas</div>
       <h2>Ações para ampliar o interesse</h2>
       <p>Seis movimentos — cada um endereçando um público e a motivação que o move. Vários já são tendências reais da própria Disney; aqui ganham foco e recorte brasileiro.</p>
     </div>
